@@ -1,0 +1,150 @@
+# Retail Sales SQL Data Warehouse (End-to-End ETL Project)
+
+Welcome to the **Retail Sales SQL Data Warehouse (End-to-End ETL Project)** repository!
+In this project, I design and implement a complete Retail Sales Data Warehouse using SQL Server, featuring Bronze–Silver–Gold layered architecture, automated ETL pipelines, data quality checks, and analytics-ready modeling for BI insights.
+
+---
+
+## Table of Contents
+- Project Overview
+- Tech Stack
+- Architecture
+- Schema Design
+- ETL Pipeline
+- Key Analytics
+- Credits
+- BI Analytics & Reporting (Data Analytics)
+- Final Note
+
+---
+
+## Project Overview
+This project simulates a retail business environment where sales data from CRM and ERP systems (CSV files) is integrated into a centralized data warehouse to support analytics and business reporting.
+
+It follows the Medallion Architecture:
+
+- **Bronze Layer**: Raw data ingestion from source CSVs
+- **Silver Layer**: Cleaned and standardized data
+- **Gold Layer**: Star schema modeled for analytical performance
+
+---
+
+## Tech Stack
+
+- **SQL Server Express** – Data warehouse engine
+- **Draw.io** – For architecture and data flow diagrams 
+- **SSMS** – Querying, ETL development
+- - **Star Schema** – Fact & dimension modeling  
+- **GitHub** – Version control and documentation
+
+--- 
+
+## Architecture
+The project uses the medallion architecture, a layered approach for separation of concerns and scalability.
+![architecture](./Docs/DataArchitecture.drawio.png)
+
+---
+
+## Schema Design
+### Fact Table
+
+- `fact_sales` – Central table for transactions
+### Dimension Tables
+
+- `dim_product`
+- `dim_customer`
+- `dim_store`
+- `dim_date`
+The schema follows the **star model**, optimized for fast analytical queries.
+
+---
+
+## ETL Pipeline
+The pipeline consists of three stages:
+
+- **Extract**
+Load raw CRM and ERP CSV files into PostgreSQL bronze tables
+
+- **Transform**
+Clean and prepare data: handling nulls, fixing types, standardizing formats
+
+- **Load**
+Insert cleaned data into silver and finally into gold star schema tables
+
+Scripts are modularized into:
+
+- `scripts/bronze/`
+- `scripts/silver/`
+- `scripts/gold/`
+
+---
+
+## Key Analytics
+Some of the business questions answered by SQL queries:
+
+- Total sales by store and region
+- Best-selling products per quarter
+- Monthly and seasonal sales trends
+- Customer segmentation by purchase frequency
+  
+
+---
+
+## Credits
+
+- **Inspired by**: @DatawithBaraa’s Data Warehouse Tutorial
+- **Developed by**: Safat Uddin
+
+---
+
+## BI Analytics & Reporting (Data Analytics)
+
+### Objective
+Develop SQL-based analytics to deliver detailed insights into:
+- **Customer Behavior**
+- **Product Performance**
+- **Sales Trends**
+
+These insights empower stakeholders with key business metrics, enabling strategic decision-making.
+
+---
+
+## Final Note
+
+"Beyond the technical skills, this project helped me understand how to structure a data engineering solution entirely with SQL from raw data to business-ready analytics.
+It also taught me the importance of documentation, planning, and clean architecture, lessons I’ll continue applying in all future projects."
+
+---
+
+### License
+
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify and share this project with proper attribution.
+
+
+
+
+## ✨ README Improvement Notes
+
+### 📌 Formatting Enhancements Needed
+- Improve heading hierarchy for better readability
+- Ensure consistent spacing between sections
+- Use proper Markdown formatting for code blocks and lists
+- Align all installation and usage steps properly
+
+### 🚀 Suggested Structure Upgrade
+- Introduction
+- Features
+- Tech Stack
+- Installation
+- Usage
+- Project Structure
+- Contribution Guidelines
+- License
+
+### 🛠️ Documentation Improvements
+- Add badges (optional): build, license, contributors
+- Add screenshots for better UI understanding
+- Standardize code blocks for commands
+
+### 🎯 Goal
+Improve onboarding experience for new contributors and users by making README more structured, readable, and professional.
