@@ -32,7 +32,7 @@ SELECT
 FROM gold_analytics.fact_sales
 WHERE order_date IS NOT NULL
 GROUP BY order_year, order_month
-ORDER BY order_year, MONTH(order_date);
+ORDER BY order_year, order_month;
 
 -- =================================================================
 -- Monthly-Yearly Formatted Performance
@@ -46,4 +46,4 @@ SELECT
 FROM gold_analytics.fact_sales
 WHERE order_date IS NOT NULL
 GROUP BY DATE_FORMAT(order_date, '%M-%Y')
-ORDER BY MIN(order_date);
+ORDER BY DATE_FORMAT(order_date, '%M-%Y');
