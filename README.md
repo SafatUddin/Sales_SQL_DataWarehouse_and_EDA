@@ -766,35 +766,11 @@ CREATE INDEX idx_order_date ON gold.fact_sales(order_date);
 
 Potential improvements and extensions to the warehouse:
 
-### Data Architecture
-- [ ] Implement **Slowly Changing Dimensions (SCD Type 2)** for historical tracking of customer and product changes
-- [ ] Add **incremental load patterns** for near real-time data ingestion from operational systems
-- [ ] Implement **data partitioning** by date ranges for improved query performance on large datasets
-- [ ] Add **data quality monitoring** framework with automated alerts for anomalies
-
 ### Analytics & Reporting
 - [ ] Develop **Power BI / Tableau dashboard templates** connecting to Gold layer views
 - [ ] Create **pre-aggregated summary tables** for common dashboard queries
 - [ ] Implement **predictive analytics** models for sales forecasting and customer churn
 - [ ] Add **cohort analysis** views for customer retention tracking
-
-### Data Integration
-- [ ] Add **CDC (Change Data Capture)** for incremental updates from source systems
-- [ ] Integrate additional data sources (marketing platforms, customer support systems)
-- [ ] Implement **API-based data ingestion** for real-time event streams
-- [ ] Add **data lineage tracking** for end-to-end visibility
-
-### Security & Governance
-- [ ] Implement **row-level security** for multi-tenant access control
-- [ ] Add **data masking** for sensitive customer information (PII)
-- [ ] Create **audit tables** tracking all data modifications
-- [ ] Implement **data retention policies** with automated archiving
-
-### Technology Migration
-- [ ] Migrate to **cloud-native solutions** (AWS Redshift, Azure Synapse, Google BigQuery)
-- [ ] Implement **containerized deployment** using Docker for easy replication
-- [ ] Add **CI/CD pipeline** for automated testing and deployment
-- [ ] Explore **dbt (data build tool)** for transformation layer management
 
 ---
 
