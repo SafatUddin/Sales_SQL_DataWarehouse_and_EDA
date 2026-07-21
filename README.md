@@ -1,7 +1,7 @@
 # Retail Sales SQL Data Warehouse (End-to-End ETL Project)
 
 Welcome to the **Retail Sales SQL Data Warehouse (End-to-End ETL Project)** repository!
-In this project, I design and implement a complete Retail Sales Data Warehouse using SQL Server, featuring Bronze–Silver–Gold layered architecture, automated ETL pipelines, data quality checks, and analytics-ready modeling for BI insights.
+In this project, I design and implement a complete Retail Sales Data Warehouse using MySQL, featuring Bronze, Silver & Gold layered architecture, automated ETL pipelines, data quality checks, and analytics ready modeling for BI insights.
 
 ---
 
@@ -31,7 +31,7 @@ It follows the Medallion Architecture:
 
 ## Tech Stack
 
-- **SQL Server Express** – Data warehouse engine
+- **MySQL** – Data warehouse engine
 - **Draw.io** – For architecture and data flow diagrams 
 - **SSMS** – Querying, ETL development
 - - **Star Schema** – Fact & dimension modeling  
@@ -41,7 +41,7 @@ It follows the Medallion Architecture:
 
 ## Architecture
 The project uses the medallion architecture, a layered approach for separation of concerns and scalability.
-![architecture](./Docs/DataArchitecture.drawio.png)
+![architecture](./Docs/DataArchitecture.png)
 
 ---
 
@@ -73,9 +73,9 @@ Insert cleaned data into silver and finally into gold star schema tables
 
 Scripts are modularized into:
 
-- `scripts/bronze/`
-- `scripts/silver/`
-- `scripts/gold/`
+- `Scripts/Bronze/`
+- `Scripts/Silver/`
+- `Scripts/Gold/`
 
 ---
 
