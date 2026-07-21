@@ -42,7 +42,7 @@
 
 This project demonstrates the end-to-end development of a **modern data warehouse** using **MySQL**, designed to consolidate disparate sales data into a unified, analytics-ready platform. By implementing the **Medallion Architecture** (Bronze → Silver → Gold layers) and transforming raw operational data from multiple source systems into structured dimensional models, this warehouse enables high-performance business intelligence, trend analysis, and data-driven decision-making.
 
-> **⭐ For Recruiters:** This repository showcases production-ready data warehousing skills including ETL development, dimensional modeling, advanced SQL analytics (window functions, CTEs, complex JOINs), and comprehensive business intelligence capabilities. The project includes **12 progressive EDA scripts** demonstrating real-world analytical techniques from basic KPIs to advanced customer segmentation and time-series analysis. See the [Skills Demonstrated](#-skills-demonstrated) section for a complete overview.
+> **⭐ For Recruiters:** This repository showcases production-ready data warehousing skills including ETL development, dimensional modeling, advanced SQL analytics (window functions, CTEs, complex JOINs), and comprehensive business intelligence capabilities. The project includes **12 progressive EDA scripts** demonstrating real-world analytical techniques from basic KPIs to advanced customer segmentation and time-series analysis. See the [Skills Demonstrated](#-skills-demonstrated) section for a complete overview of my skill reflected through this project.
 
 ### 🎯 Objectives
 
@@ -218,16 +218,6 @@ Source Systems (CRM/ERP CSV) → Bronze Layer → Silver Layer → Gold Layer �
 
 **Objective:** Ingest raw data as-is from source systems
 
-```sql
--- Example: Loading raw CRM customer data into Bronze layer
-LOAD DATA LOCAL INFILE 'Datasets/source_crm/cust_info.csv'
-INTO TABLE bronze.crm_cust_info
-FIELDS TERMINATED BY ',' 
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-```
-
 **Characteristics:**
 - Full load strategy (Truncate & Insert)
 - No transformations applied
@@ -246,20 +236,6 @@ IGNORE 1 ROWS;
 - **Enrichment:** Calculate derived fields (age, product hierarchies, etc.)
 - **Deduplication:** Identify and resolve duplicate records
 
-```sql
--- Example: Cleaning and transforming customer data
-INSERT INTO silver.crm_cust_info
-SELECT 
-    customer_id,
-    TRIM(UPPER(customer_number)) AS customer_number,
-    TRIM(first_name) AS first_name,
-    TRIM(last_name) AS last_name,
-    COALESCE(country, 'Unknown') AS country,
-    STR_TO_DATE(birthdate, '%Y-%m-%d') AS birthdate,
-    CURRENT_TIMESTAMP AS dwh_load_date
-FROM bronze.crm_cust_info
-WHERE customer_id IS NOT NULL;
-```
 
 ### Phase 3: Load (Gold Layer)
 
@@ -271,22 +247,6 @@ WHERE customer_id IS NOT NULL;
 - Surrogate keys generated for dimension tables
 - Foreign key relationships established between facts and dimensions
 
-```sql
--- Example: Creating dimension view with surrogate keys
-CREATE OR REPLACE VIEW gold.dim_customers AS
-SELECT 
-    ROW_NUMBER() OVER (ORDER BY customer_id) AS customer_key,
-    customer_id,
-    customer_number,
-    first_name,
-    last_name,
-    country,
-    marital_status,
-    gender,
-    birthdate,
-    create_date
-FROM silver.crm_cust_info;
-```
 
 **Load Methods:**
 - **Dimension Tables:** SCD Type 1 (overwrite) for current state
@@ -348,93 +308,33 @@ Following industry best practices documented in `Docs/Naming_Conventions.md`:
 
 ---
 
-## 📈 Exploratory Data Analysis & Advanced Analytics
+## 📈 Exploratory Data Analysis & Business Intelligence Outputs
 
 The warehouse includes a **comprehensive EDA (Exploratory Data Analysis) suite** with **12 progressive analytical scripts** demonstrating advanced SQL capabilities and business intelligence techniques. This showcase represents industry-standard analytical frameworks used in professional data warehousing environments.
 
-### 🎯 Analytics Maturity Framework
-
-The EDA scripts follow a **structured analytical progression** from basic profiling to advanced business intelligence:
+### 🎯 Analytics Framework
+The EDA scripts follow a structured analytical progression from basic profiling to advanced business intelligence:
 
 <div align="center">
 
-| Phase | Script | Analytical Technique | Business Value | SQL Skills Demonstrated |
-|-------|--------|---------------------|----------------|------------------------|
-| **🔍 Discovery** | **01_setup.sql** | Environment Setup | Analytics workspace initialization | Schema design, data loading |
-| **📊 Profiling** | **02_metadata_exploration.sql** | Metadata Analysis | Database object discovery using `INFORMATION_SCHEMA` | System catalogs, metadata queries |
-| **🎯 Descriptive** | **03_dimension_exploration.sql** | Dimension Analysis | Customer/product/date dimension exploration | Date functions, `TIMESTAMPDIFF`, aggregations |
-| **📏 Measurement** | **04_measure_exploration.sql** | KPI Calculation | Core business metrics (revenue, volume, counts) | Aggregate functions, `DISTINCT`, KPI dashboard |
-| **📐 Comparative** | **05_magnitude_analysis.sql** | Magnitude Comparison | Category-wise performance breakdown | `GROUP BY`, multi-table JOINs, hierarchical analysis |
-| **🏆 Competitive** | **06_ranking_analysis.sql** | Top-N/Bottom-N Analysis | Best/worst performer identification | `LIMIT`, `ROW_NUMBER()`, window functions |
-| **📈 Temporal** | **07_change_over_time.sql** | Trend & Seasonality | Time-series analysis, pattern detection | Date extraction, `YEAR()`, `MONTHNAME()`, time grouping |
-| **⚡ Progressive** | **08_cumulative_analysis.sql** | Running Totals & Moving Averages | Growth tracking, momentum analysis | Window functions (`SUM/AVG OVER`), `PARTITION BY` |
-| **⚔️ Benchmarking** | **09_performance_analysis.sql** | YoY/Average Comparisons | Target vs actual, period comparisons | `LAG()`, `CASE` logic, performance indicators |
-| **🥧 Compositional** | **10_part_to_whole_analysis.sql** | Contribution Analysis | Market share, category contribution % | CTEs, window aggregations, percentage calculations |
-| **🎪 Behavioral** | **11_data_segmentation.sql** | Customer/Product Segmentation | RFM-style segmentation, behavioral grouping | Complex `CASE` statements, range bucketing |
-| **📋 Operational** | **12_reports.sql** | Business Reports | Consolidated customer/product analytics views | VIEWs, multi-metric calculations, derived KPIs |
+| Phase | Script | Analytical Technique | Business Question Answered | SQL Skills Demonstrated |
+|-------|--------|---------------------|----------------------------|------------------------|
+| 🔍 Discovery | `01_setup.sql` | Environment Setup | — | Schema design, data loading |
+| 📊 Profiling | `02_metadata_exploration.sql` | Metadata Analysis | What does the warehouse contain? | System catalogs, metadata queries |
+| 🎯 Descriptive | `03_dimension_exploration.sql` | Dimension Analysis | Who are our customers/products? | Date functions, `TIMESTAMPDIFF`, aggregations |
+| 📏 Measurement | `04_measure_exploration.sql` | KPI Calculation | What are our core business numbers? | Aggregate functions, `DISTINCT`, KPI dashboard |
+| 📐 Comparative | `05_magnitude_analysis.sql` | Magnitude Comparison | Which country/category drives revenue? | `GROUP BY`, multi-table JOINs, hierarchical analysis |
+| 🏆 Competitive | `06_ranking_analysis.sql` | Top-N/Bottom-N Analysis | Who are our top/bottom performers? | `LIMIT`, `ROW_NUMBER()`, window functions |
+| 📈 Temporal | `07_change_over_time.sql` | Trend & Seasonality | Is the business growing or declining? | Date extraction, `YEAR()`, `MONTHNAME()`, time grouping |
+| ⚡ Progressive | `08_cumulative_analysis.sql` | Running Totals & Moving Averages | What's our running/cumulative revenue? | Window functions (`SUM/AVG OVER`), `PARTITION BY` |
+| ⚔️ Benchmarking | `09_performance_analysis.sql` | YoY/Average Comparisons | How does this year compare to last? | `LAG()`, `CASE` logic, performance indicators |
+| 🥧 Compositional | `10_part_to_whole_analysis.sql` | Contribution Analysis | What % of revenue comes from each segment? | CTEs, window aggregations, percentage calculations |
+| 🎪 Behavioral | `11_data_segmentation.sql` | Customer/Product Segmentation | Who are our VIP vs. at-risk customers? | Complex `CASE` statements, range bucketing |
+| 📋 Operational | `12_reports.sql` | Business Reports | Final customer & product report dashboards | VIEWs, multi-metric calculations, derived KPIs |
 
 </div>
 
-### 💡 Advanced SQL Techniques Demonstrated
 
-This EDA suite showcases professional-grade SQL expertise across multiple domains:
-
-#### Window Functions & Analytical SQL
-```sql
--- Running totals and moving averages (08_cumulative_analysis.sql)
-SUM(total_sales) OVER(ORDER BY real_date) AS running_total,
-AVG(average_price) OVER(PARTITION BY YEAR(real_date) ORDER BY real_date) AS moving_average_yearly
-
--- Year-over-Year comparison with LAG (09_performance_analysis.sql)
-LAG(current_sales) OVER(PARTITION BY product_name ORDER BY order_year) AS previous_year_sales,
-current_sales - LAG(current_sales) OVER(...) AS diff_py_sales
-
--- Ranking with ROW_NUMBER (06_ranking_analysis.sql)
-ROW_NUMBER() OVER(ORDER BY SUM(sales_amount) DESC) AS rank_no
-```
-
-#### Common Table Expressions (CTEs)
-```sql
--- Multi-level aggregation for contribution analysis (10_part_to_whole_analysis.sql)
-WITH category_sales AS (
-    SELECT category, SUM(sales_amount) AS total_sales
-    FROM fact_sales JOIN dim_products USING(product_key)
-    GROUP BY category
-)
-SELECT 
-    category,
-    CONCAT(ROUND((total_sales / SUM(total_sales) OVER()) * 100, 2), '%') AS contribution_pct
-FROM category_sales;
-```
-
-#### Complex Business Logic
-```sql
--- RFM-style customer segmentation (11_data_segmentation.sql)
-CASE 
-    WHEN lifespan >= 12 AND total_sales > 5000 THEN 'VIP'
-    WHEN lifespan >= 12 AND total_sales <= 5000 THEN 'Regular'
-    ELSE 'New'
-END AS customer_rank
-
--- Multi-criteria performance indicators (09_performance_analysis.sql)
-CASE 
-    WHEN current_sales > average_sales THEN 'Above Average'
-    WHEN current_sales < average_sales THEN 'Below Average'
-    ELSE 'Average'
-END AS performance_indicator
-```
-
-#### Date & Time Intelligence
-```sql
--- Temporal range calculation (03_dimension_exploration.sql)
-TIMESTAMPDIFF(YEAR, MIN(order_date), MAX(order_date)) AS order_range_years,
-TIMESTAMPDIFF(MONTH, MIN(birthdate), NOW()) AS customer_age
-
--- Time-series grouping (07_change_over_time.sql)
-DATE_FORMAT(order_date, '%M-%Y') AS order_period,
-YEAR(order_date) AS order_year,
-MONTHNAME(order_date) AS order_month
-```
 
 ### 📊 Business Intelligence Outputs
 
@@ -456,14 +356,6 @@ Comprehensive 360° customer view with advanced calculated metrics:
 - "Segment customers by age demographics and spending behavior"
 - "Track customer retention using recency metrics"
 
-```sql
--- Example: VIP customer identification
-CASE 
-    WHEN lifespan >= 12 AND total_sales > 5000 THEN 'VIP'
-    WHEN lifespan >= 12 AND total_sales <= 5000 THEN 'Regular'
-    ELSE 'New'
-END AS customer_rank
-```
 
 #### 2. **Product Performance Analytics** (`product_report` view)
 
@@ -484,33 +376,9 @@ Complete product portfolio analysis with profitability and performance tiers:
 - "Calculate average order revenue per product"
 - "Compare product cost vs. sales performance"
 
-```sql
--- Example: Performance tier classification
-CASE 
-    WHEN total_sales > 50000 THEN 'High Performer'
-    WHEN total_sales >= 10000 THEN 'Mid Range'
-    ELSE 'Low Performer'
-END AS sales_performance
-```
 
-#### 3. **Executive KPI Dashboard**
 
-Unified business metrics view combining dimensions and measures:
-
-```sql
--- Real-time business health metrics (04_measure_exploration.sql)
-SELECT 'Total Sales' AS metric, SUM(sales_amount) AS value FROM fact_sales
-UNION ALL
-SELECT 'Total Items Sold', SUM(quantity) FROM fact_sales
-UNION ALL
-SELECT 'Average Selling Price', AVG(price) FROM fact_sales
-UNION ALL
-SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM fact_sales
-UNION ALL
-SELECT 'Active Customers', COUNT(DISTINCT customer_key) FROM fact_sales;
-```
-
-#### 4. **Advanced Analytical Capabilities**
+#### 3. **Advanced Analytical Capabilities**
 
 | Analysis Type | Technique | Business Question Answered | Script Reference |
 |--------------|-----------|---------------------------|------------------|
